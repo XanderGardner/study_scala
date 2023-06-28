@@ -12,6 +12,13 @@
 
 [OOP](#OOP)
 
+[Spark](#spark)
+1. [Dataframe](#dataframe)
+1. [Functions](#functions)
+1. [Column](#column)
+1. [Row](#row)
+
+
 # Basics
 
 ### variables
@@ -254,4 +261,58 @@ class C extends D with T { ... }
 
 // method overrides in class
 class C extends D { override def f = ...}
+```
+
+# Spark
+
+### Dataframe
+- jointypes: https://stackoverflow.com/questions/45990633/what-are-the-various-join-types-in-spark
+- Docs: https://maxpumperla.com/java-book/api/scala/org/apache/spark/sql/Dataset.html
+``` scala
+// import to use
+import org.apache.spark.sql.{Dataset, Row, SparkSession}
+
+// join
+var out = left.join(right,"inner")
+
+// transform: apply customer transformation with function
+var out = curr.transform(df => df)
+
+// groupBy: groups using columns in order to run aggregation on them
+var out = curr.groupBy($"colname", $"col2name").agg...
+
+// agg: aggregates on entire dataset
+var out = curr.groupBy($"colname", $"col2name").agg(max("score") as "score) // as renames col
+
+// withColumn: adds new column
+var out = curr.withColumn("name_new_col", )
+```
+
+### Functions
+- Docs: https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/functions$.html
+```scala
+import org.apache.spark.sql.functions._
+
+// lit: makes column of "," strings
+val newDF = df.withColumn("name_col", lit(","))
+
+// concat
+val newDF = df.withColumn("name_col", concat($"col1", $"col2"))
+```
+
+### Column
+- Docs: https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Column.html
+```scala
+// $ operator converts string to Column type
+$"col_name"
+```
+
+### Row
+- Docs: https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/Row.html
+```scala
+// import to use
+import org.apache.spark.sql.{Dataset, Row, SparkSession}
+
+
+
 ```
